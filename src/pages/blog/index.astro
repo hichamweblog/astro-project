@@ -1,0 +1,41 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import { getCollection } from "astro:content";
+const posts = await getCollection("blog");
+---
+
+<Layout title="Blog">
+  <div class="container mx-auto px-4 py-8">
+    <h1 class="text-5xl font-extrabold mb-6 text-center text-gray-800">Blog</h1>
+    <p class="text-lg mb-8 text-center text-gray-600">
+      Welcome to our blog. Here you will find the latest articles and posts.
+    </p>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+      {posts.map((post) => (
+        <section class="p-6 bg-white rounded-lg shadow-lg hover:shadow-xl transition-shadow duration-300 flex flex-col h-full">
+          <a href={`/blog/${post.data.slug}`} class="block flex-grow flex flex-col justify-between">
+
+            <!-- Title and Date with Fixed Height -->
+            <div class="flex flex-col h-24">
+              <h2 class="text-2xl font-semibold text-gray-800 line-clamp-2">
+                {post.data.title}
+              </h2>
+              <p class="text-sm text-gray-500 mt-2">{post.data.date}</p>
+            </div>
+
+            <!-- Image Container -->
+            <div class="mt-auto flex justify-center items-center h-48 overflow-hidden rounded-lg">
+              <img
+                src={post.data.image}
+                alt={post.data.title}
+                class="w-full h-full object-cover"
+              />
+            </div>
+
+          </a>
+        </section>
+      ))}
+    </div>
+  </div>
+</Layout>

@@ -1,0 +1,43 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import { getCollection, render } from "astro:content";
+
+export async function getStaticPaths() {
+  const posts = await getCollection("blog");
+  return posts.map((post) => ({
+    params: { slug: post.data.slug },
+    props: { post },
+  }));
+}
+
+const { slug } = Astro.params;
+const posts = await getCollection("blog");
+const post = posts.find((p) => p.data.slug === slug);
+
+if (!post) {
+  throw new Error(`Post not found for slug: ${slug}`);
+}
+const { Content } = await render(post);
+---
+
+<Layout title={post.data.title}>
+  <div class="container mx-auto px-4 py-8">
+    <button
+      class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+      <a href="/blog">Back to Blog</a>
+    </button>
+    <article class="prose lg:prose-xl mx-auto">
+      <h1>{post.data.title}</h1>
+
+      {post.data.author.split("-").join(" ").toUpperCase()}
+
+      <p class="text-gray-600 text-sm">{post.data.date}</p>
+      <img
+        src=`../../${post.data.image}`
+        alt={post.data.title}
+        class="my-4 rounded-lg w-full h-64 object-cover"
+      />
+      <Content />
+    </article>
+  </div>
+</Layout>
