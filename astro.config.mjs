@@ -5,8 +5,10 @@ import node from "@astrojs/node";
 
 import netlify from "@astrojs/netlify";
 
+import compressor from "astro-compressor";
+
 export default defineConfig({
-	site: 'https://dz-astro.netlify.app',
+    site: 'https://dz-astro.netlify.app',
   vite: {
     plugins: [tailwindcss()],
     build: {
@@ -14,7 +16,7 @@ export default defineConfig({
       cssMinify: true,
     },
   },
-	integrations: [sitemap()],
+    integrations: [sitemap(), compressor()],
   output: "server",
   adapter: netlify(),
 

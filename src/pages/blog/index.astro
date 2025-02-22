@@ -1,7 +1,11 @@
 ---
+export const prerender = true
 import Layout from "../../layouts/Layout.astro";
 import { getCollection } from "astro:content";
 const posts = await getCollection("blog");
+import { Image } from "astro:assets";
+
+
 ---
 
 <Layout title="Blog">
@@ -14,7 +18,7 @@ const posts = await getCollection("blog");
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
       {posts.map((post) => (
         <section class="p-6 bg-white rounded-lg shadow-lg hover:shadow-xl transition-shadow duration-300 flex flex-col h-full">
-          <a href={`/blog/${post.data.slug}`} class="block flex-grow flex flex-col justify-between">
+          <a href={`/blog/${post.data.slug}`} class=" flex-grow flex flex-col justify-between">
 
             <!-- Title and Date with Fixed Height -->
             <div class="flex flex-col h-24">
@@ -26,11 +30,14 @@ const posts = await getCollection("blog");
 
             <!-- Image Container -->
             <div class="mt-auto flex justify-center items-center h-48 overflow-hidden rounded-lg">
-              <img
-                src={post.data.image}
-                alt={post.data.title}
-                class="w-full h-full object-cover"
-              />
+								<Image
+								src={post.data.image}
+								alt={post.data.title}
+								class="w-full h-full object-cover"
+								width={300}
+								height={200}
+								format="webp"
+								/>
             </div>
 
           </a>

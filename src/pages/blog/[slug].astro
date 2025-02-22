@@ -1,4 +1,6 @@
 ---
+export const prerender = true
+import Image from "astro/components/Image.astro";
 import Layout from "../../layouts/Layout.astro";
 import { getCollection, render } from "astro:content";
 
@@ -32,10 +34,15 @@ const { Content } = await render(post);
       {post.data.author.split("-").join(" ").toUpperCase()}
 
       <p class="text-gray-600 text-sm">{post.data.date}</p>
-      <img
-        src=`../../${post.data.image}`
+      <Image
+        src={post.data.image}
         alt={post.data.title}
         class="my-4 rounded-lg w-full h-64 object-cover"
+				width={500}
+				height={300}
+				format="webp"
+				quality={80}
+
       />
       <Content />
     </article>
